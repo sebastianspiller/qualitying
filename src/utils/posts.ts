@@ -14,12 +14,16 @@ export function getSlug(entry: BlogPost): string {
   return entry.id.split('/').slice(1).join('/');
 }
 
-const isProd = import.meta.env.PROD;
+export function shouldIncludePost(draft: boolean | undefined): boolean {
+  return import.meta.env.PROD ? draft !== true : true;
+}
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  return getCollection('blog', ({ data }) => shouldIncludePost(data.draft));
+}
 
 export async function getPosts(lang: Lang): Promise<BlogPost[]> {
-  const posts = await getCollection('blog', ({ data }) => {
-    return isProd ? data.draft !== true : true;
-  });
+  const posts = await getBlogPosts();
   return posts
     .filter((post) => getLang(post) === lang)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());

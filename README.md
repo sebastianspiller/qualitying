@@ -35,7 +35,7 @@ description: "A short summary used in lists, meta tags and RSS."
 pubDate: 2026-05-29
 updatedDate: 2026-06-01   # optional
 tags: ["astro", "notes"]  # optional
-draft: false              # optional; drafts are hidden in production builds
+draft: false              # optional; drafts are visible in dev, hidden in production
 ---
 
 Your content here, in **Markdown**.

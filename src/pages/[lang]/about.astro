@@ -1,0 +1,27 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { languages, useTranslations, type Lang } from '../../i18n/ui';
+import { AI_TRANSLATED_TAG } from '../../utils/tags';
+
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const tagHref = getRelativeLocaleUrl(lang, `tags/${AI_TRANSLATED_TAG}`);
+---
+
+<BaseLayout lang={lang} title={t('about.title')} description={t('about.description')} switchPath="about">
+  <article class="prose">
+    <h1>{t('about.title')}</h1>
+    <p>{t('about.lede')}</p>
+    <p>{t('about.aiNote')}</p>
+    <p>
+      {t('about.aiTagIntro')}
+      <a class="tag tag--ai-translated" href={tagHref}>#{AI_TRANSLATED_TAG}</a>.
+    </p>
+    <p>{t('about.originalNote')}</p>
+  </article>
+</BaseLayout>

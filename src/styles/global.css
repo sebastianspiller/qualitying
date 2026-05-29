@@ -347,8 +347,12 @@ hr {
 .post-card .meta {
   color: var(--text-muted);
   font-size: 0.8125rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   font-variant-numeric: tabular-nums;
+}
+
+.post-card .tag-list {
+  margin: 0 0 0.65rem;
 }
 
 .post-card p {
@@ -359,6 +363,20 @@ hr {
 }
 
 /* Tags */
+.draft-badge {
+  display: inline-block;
+  margin-inline-start: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  border: 1px dashed var(--border);
+  color: var(--text-muted);
+}
+
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -395,6 +413,17 @@ a.tag:hover {
   text-decoration: none;
 }
 
+.tag--ai-translated {
+  border: 1px dashed var(--accent);
+  background: transparent;
+  font-style: italic;
+}
+
+a.tag.tag--ai-translated:hover {
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+
 /* Article */
 .prose {
   font-size: 1.05rem;
@@ -410,11 +439,19 @@ a.tag:hover {
   text-underline-offset: 0.15em;
 }
 
+.article-head {
+  margin-bottom: 1.75rem;
+}
+
 .article-meta {
   color: var(--text-muted);
   font-size: 0.875rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 0;
   font-variant-numeric: tabular-nums;
+}
+
+.article-head .tag-list {
+  margin-top: 0.65rem;
 }
 
 /* Footer */

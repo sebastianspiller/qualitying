@@ -3,6 +3,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from './BaseLayout.astro';
 import { formatDate, useTranslations, type Lang } from '../i18n/ui';
 import type { BlogPost } from '../utils/posts';
+import { isAiTranslatedTag } from '../utils/tags';
 
 interface Props {
   post: BlogPost;
@@ -13,35 +14,44 @@ interface Props {
 const { post, lang, switchPath } = Astro.props;
 const t = useTranslations(lang);
 const { title, description, pubDate, updatedDate, tags } = post.data;
+const showDraftBadge = !import.meta.env.PROD && post.data.draft === true;
 ---
 
 <BaseLayout lang={lang} title={title} description={description} switchPath={switchPath}>
   <article>
-    <h1>{title}</h1>
-    <div class="article-meta">
-      <time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
+    <h1>
+      {title}
+      {showDraftBadge && <span class="draft-badge">{t('post.draft')}</span>}
+    </h1>
+    <div class="article-head">
+      <div class="article-meta">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
+        {
+          updatedDate && (
+            <span> · {t('post.updated')} {formatDate(updatedDate, lang)}</span>
+          )
+        }
+      </div>
       {
-        updatedDate && (
-          <span> · {t('post.updated')} {formatDate(updatedDate, lang)}</span>
+        tags.length > 0 && (
+          <ul class="tag-list">
+            {tags.map((tag) => (
+              <li>
+                <a
+                  class:list={['tag', isAiTranslatedTag(tag) && 'tag--ai-translated']}
+                  href={getRelativeLocaleUrl(lang, `tags/${tag}`)}
+                >
+                  #{tag}
+                </a>
+              </li>
+            ))}
+          </ul>
         )
       }
     </div>
     <div class="prose">
       <slot />
     </div>
-    {
-      tags.length > 0 && (
-        <ul class="tag-list">
-          {tags.map((tag) => (
-            <li>
-              <a class="tag" href={getRelativeLocaleUrl(lang, `tags/${tag}`)}>
-                #{tag}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )
-    }
     <hr />
     <p>
       <a href={getRelativeLocaleUrl(lang, 'blog')}>← {t('post.back')}</a>

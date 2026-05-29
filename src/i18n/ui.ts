@@ -14,6 +14,16 @@ export const ui = {
     'nav.home': 'Home',
     'nav.blog': 'Blog',
     'nav.tags': 'Tags',
+    'nav.about': 'About',
+    'about.title': 'About',
+    'about.description': 'Languages, translations, and how this site is built.',
+    'about.lede':
+      'Qualitying is a bilingual blog — English and German live in separate sections, linked by the language switcher in the header.',
+    'about.aiNote':
+      'Some German posts are translations of English originals. Those were produced with AI assistance and reviewed lightly; they may not capture every nuance of the source.',
+    'about.aiTagIntro': 'Translated posts are marked with the tag',
+    'about.originalNote':
+      'Posts without that tag were written directly in the language you are reading.',
     'home.intro': 'Welcome. This is where I write — sometimes in English, sometimes in German.',
     'home.latest': 'Latest posts',
     'home.viewAll': 'View all posts',
@@ -22,6 +32,7 @@ export const ui = {
     'post.readMore': 'Read more',
     'post.back': 'Back to all posts',
     'post.updated': 'Updated',
+    'post.draft': 'Draft',
     'tags.title': 'Tags',
     'tags.all': 'All tags',
     'tags.postsTagged': 'Posts tagged',
@@ -36,6 +47,16 @@ export const ui = {
     'nav.home': 'Start',
     'nav.blog': 'Blog',
     'nav.tags': 'Schlagwörter',
+    'nav.about': 'Über',
+    'about.title': 'Über',
+    'about.description': 'Sprachen, Übersetzungen und wie diese Seite entsteht.',
+    'about.lede':
+      'Qualitying ist ein zweisprachiger Blog — Englisch und Deutsch haben jeweils einen eigenen Bereich, verbunden über den Sprachschalter in der Kopfzeile.',
+    'about.aiNote':
+      'Einige deutsche Beiträge sind Übersetzungen englischer Originale. Sie wurden mit KI-Unterstützung erstellt und nur leicht überarbeitet; sie treffen möglicherweise nicht jede Nuance des Ausgangstextes.',
+    'about.aiTagIntro': 'Übersetzte Beiträge sind mit dem Schlagwort',
+    'about.originalNote':
+      'Beiträge ohne dieses Schlagwort wurden direkt in der Sprache verfasst, in der du sie liest.',
     'home.intro': 'Willkommen. Hier schreibe ich — mal auf Deutsch, mal auf Englisch.',
     'home.latest': 'Neueste Beiträge',
     'home.viewAll': 'Alle Beiträge ansehen',
@@ -44,6 +65,7 @@ export const ui = {
     'post.readMore': 'Weiterlesen',
     'post.back': 'Zurück zu allen Beiträgen',
     'post.updated': 'Aktualisiert',
+    'post.draft': 'Entwurf',
     'tags.title': 'Schlagwörter',
     'tags.all': 'Alle Schlagwörter',
     'tags.postsTagged': 'Beiträge mit',

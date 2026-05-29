@@ -3,6 +3,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { languages, useTranslations, type Lang } from '../../../i18n/ui';
 import { getTags } from '../../../utils/posts';
+import { isAiTranslatedTag } from '../../../utils/tags';
 
 export function getStaticPaths() {
   return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
@@ -22,7 +23,10 @@ const tags = await getTags(lang);
       <ul class="tag-list tag-list--standalone">
         {tags.map((tag) => (
           <li>
-            <a class="tag" href={getRelativeLocaleUrl(lang, `tags/${tag}`)}>
+            <a
+              class:list={['tag', isAiTranslatedTag(tag) && 'tag--ai-translated']}
+              href={getRelativeLocaleUrl(lang, `tags/${tag}`)}
+            >
               #{tag}
             </a>
           </li>

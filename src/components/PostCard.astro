@@ -2,6 +2,7 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { formatDate, useTranslations, type Lang } from '../i18n/ui';
 import { getSlug, type BlogPost } from '../utils/posts';
+import { isAiTranslatedTag } from '../utils/tags';
 
 interface Props {
   post: BlogPost;
@@ -11,23 +12,29 @@ interface Props {
 const { post, lang } = Astro.props;
 const t = useTranslations(lang);
 const slug = getSlug(post);
+const showDraftBadge = !import.meta.env.PROD && post.data.draft === true;
 const href = getRelativeLocaleUrl(lang, `blog/${slug}`);
 ---
 
 <li class="post-card">
-  <h2><a href={href}>{post.data.title}</a></h2>
+  <h2>
+    <a href={href}>{post.data.title}</a>
+    {showDraftBadge && <span class="draft-badge">{t('post.draft')}</span>}
+  </h2>
   <div class="meta">
     <time datetime={post.data.pubDate.toISOString()}>
       {formatDate(post.data.pubDate, lang)}
     </time>
   </div>
-  <p>{post.data.description}</p>
   {
     post.data.tags.length > 0 && (
       <ul class="tag-list">
         {post.data.tags.map((tag) => (
           <li>
-            <a class="tag" href={getRelativeLocaleUrl(lang, `tags/${tag}`)}>
+            <a
+              class:list={['tag', isAiTranslatedTag(tag) && 'tag--ai-translated']}
+              href={getRelativeLocaleUrl(lang, `tags/${tag}`)}
+            >
               #{tag}
             </a>
           </li>
@@ -35,4 +42,5 @@ const href = getRelativeLocaleUrl(lang, `blog/${slug}`);
       </ul>
     )
   }
+  <p>{post.data.description}</p>
 </li>
