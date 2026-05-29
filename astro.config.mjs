@@ -7,8 +7,8 @@ import sitemap from '@astrojs/sitemap';
 //   2. delete the `base` line below
 //   3. add a `public/CNAME` file containing your domain
 export default defineConfig({
-  site: 'https://sebastianspiller.github.io',
-  base: '/qualitying',
+  site: 'https://qualitying.com',
+  // base: '/qualitying',
   i18n: {
     locales: ['en', 'de'],
     defaultLocale: 'en',
