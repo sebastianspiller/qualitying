@@ -1,0 +1,28 @@
+---
+import { render } from 'astro:content';
+import PostLayout from '../../../layouts/PostLayout.astro';
+import type { Lang } from '../../../i18n/ui';
+import { getLang, getSlug } from '../../../utils/posts';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => {
+    const lang = getLang(post);
+    const slug = getSlug(post);
+    return {
+      params: { lang, slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const slug = getSlug(post);
+const { Content } = await render(post);
+---
+
+<PostLayout post={post} lang={lang} switchPath={`blog/${slug}`}>
+  <Content />
+</PostLayout>

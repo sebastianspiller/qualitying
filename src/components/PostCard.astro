@@ -1,0 +1,38 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { formatDate, useTranslations, type Lang } from '../i18n/ui';
+import { getSlug, type BlogPost } from '../utils/posts';
+
+interface Props {
+  post: BlogPost;
+  lang: Lang;
+}
+
+const { post, lang } = Astro.props;
+const t = useTranslations(lang);
+const slug = getSlug(post);
+const href = getRelativeLocaleUrl(lang, `blog/${slug}`);
+---
+
+<li class="post-card">
+  <h2><a href={href}>{post.data.title}</a></h2>
+  <div class="meta">
+    <time datetime={post.data.pubDate.toISOString()}>
+      {formatDate(post.data.pubDate, lang)}
+    </time>
+  </div>
+  <p>{post.data.description}</p>
+  {
+    post.data.tags.length > 0 && (
+      <ul class="tag-list">
+        {post.data.tags.map((tag) => (
+          <li>
+            <a class="tag" href={getRelativeLocaleUrl(lang, `tags/${tag}`)}>
+              #{tag}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</li>

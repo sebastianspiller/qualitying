@@ -1,0 +1,33 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { languages, useTranslations, type Lang } from '../../../i18n/ui';
+import { getTags } from '../../../utils/posts';
+
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const tags = await getTags(lang);
+---
+
+<BaseLayout lang={lang} title={t('tags.title')} switchPath="tags">
+  <h1>{t('tags.all')}</h1>
+  {
+    tags.length === 0 ? (
+      <p>{t('tags.empty')}</p>
+    ) : (
+      <ul class="tag-list">
+        {tags.map((tag) => (
+          <li>
+            <a class="tag" href={getRelativeLocaleUrl(lang, `tags/${tag}`)}>
+              #{tag}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>

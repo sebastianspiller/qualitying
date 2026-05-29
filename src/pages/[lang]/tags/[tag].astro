@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { languages, useTranslations, type Lang } from '../../../i18n/ui';
+import { getPosts } from '../../../utils/posts';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of Object.keys(languages) as Lang[]) {
+    const posts = await getPosts(lang);
+    const tags = new Set<string>();
+    for (const post of posts) {
+      for (const tag of post.data.tags) tags.add(tag);
+    }
+    for (const tag of tags) {
+      const tagged = posts.filter((post) => post.data.tags.includes(tag));
+      paths.push({ params: { lang, tag }, props: { tag, posts: tagged } });
+    }
+  }
+  return paths;
+}
+
+const lang = Astro.params.lang as Lang;
+const { tag, posts } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={`#${tag}`} switchPath="tags">
+  <h1>{t('tags.postsTagged')} #{tag}</h1>
+  <ul class="post-list">
+    {posts.map((post) => <PostCard post={post} lang={lang} />)}
+  </ul>
+</BaseLayout>

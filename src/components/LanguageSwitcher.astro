@@ -1,0 +1,28 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  // Path within the locale to link to, without the locale prefix,
+  // e.g. 'blog' or 'tags/astro'. Defaults to the locale home.
+  path?: string;
+}
+
+const { lang, path = '' } = Astro.props;
+const locales = Object.keys(languages) as Lang[];
+---
+
+<div class="lang-switcher" aria-label="Language">
+  {
+    locales.map((locale) => (
+      <a
+        href={getRelativeLocaleUrl(locale, path)}
+        aria-current={locale === lang ? 'true' : undefined}
+        hreflang={locale}
+      >
+        {locale.toUpperCase()}
+      </a>
+    ))
+  }
+</div>
