@@ -15,20 +15,26 @@ const posts = (await getPosts(lang)).slice(0, 3);
 ---
 
 <BaseLayout lang={lang} switchPath="">
-  <h1>{t('site.title')}</h1>
-  <p>{t('home.intro')}</p>
+  <div class="page-intro">
+    <h1>{t('site.title')}</h1>
+    <p class="lede">{t('home.intro')}</p>
+  </div>
 
-  <h2>{t('home.latest')}</h2>
-  {
-    posts.length === 0 ? (
-      <p>{t('blog.empty')}</p>
-    ) : (
-      <ul class="post-list">
-        {posts.map((post) => (
-          <PostCard post={post} lang={lang} />
-        ))}
-      </ul>
-    )
-  }
-  <p><a href={getRelativeLocaleUrl(lang, 'blog')}>{t('home.viewAll')} →</a></p>
+  <section>
+    <h2 class="section-title">{t('home.latest')}</h2>
+    {
+      posts.length === 0 ? (
+        <p>{t('blog.empty')}</p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <PostCard post={post} lang={lang} />
+          ))}
+        </ul>
+      )
+    }
+    <p class="section-cta">
+      <a class="text-link" href={getRelativeLocaleUrl(lang, 'blog')}>{t('home.viewAll')} →</a>
+    </p>
+  </section>
 </BaseLayout>

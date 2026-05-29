@@ -19,7 +19,7 @@ const tags = await getTags(lang);
     tags.length === 0 ? (
       <p>{t('tags.empty')}</p>
     ) : (
-      <ul class="tag-list">
+      <ul class="tag-list tag-list--standalone">
         {tags.map((tag) => (
           <li>
             <a class="tag" href={getRelativeLocaleUrl(lang, `tags/${tag}`)}>
