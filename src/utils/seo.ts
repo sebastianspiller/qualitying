@@ -3,7 +3,9 @@ import { defaultLang, languages, type Lang } from '../i18n/ui';
 import { withBase } from './url';
 
 export const SITE_NAME = 'Qualitying';
-export const DEFAULT_OG_IMAGE = '/og.png';
+export const DEFAULT_OG_IMAGE = '/og.jpg';
+export const DEFAULT_OG_IMAGE_WIDTH = 1200;
+export const DEFAULT_OG_IMAGE_HEIGHT = 630;
 export const TWITTER_HANDLE = undefined as string | undefined;
 
 export type PageType = 'website' | 'article';

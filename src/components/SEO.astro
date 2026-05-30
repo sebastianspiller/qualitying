@@ -1,6 +1,9 @@
 ---
 import type { Lang } from '../i18n/ui';
 import {
+  DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_HEIGHT,
+  DEFAULT_OG_IMAGE_WIDTH,
   SITE_NAME,
   TWITTER_HANDLE,
   type HreflangLink,
@@ -47,7 +50,7 @@ const {
 
 const pageUrl = canonicalUrl(pathname, site);
 const canonical = canonicalUrl(canonicalPath ?? pathname, site);
-const ogImage = image ? absoluteUrl(image, site) : absoluteUrl('/og.png', site);
+const ogImage = image ? absoluteUrl(image, site) : absoluteUrl(DEFAULT_OG_IMAGE, site);
 const robots = noindex ? 'noindex, nofollow' : 'index, follow';
 const locale = ogLocale(lang);
 const articleModified = modifiedTime ?? publishedTime;
@@ -66,7 +69,9 @@ const articleModified = modifiedTime ?? publishedTime;
 <meta property="og:type" content={type} />
 <meta property="og:url" content={pageUrl} />
 <meta property="og:image" content={ogImage} />
-<meta property="og:image:alt" content={`${SITE_NAME} — ${title}`} />
+<meta property="og:image:width" content={String(DEFAULT_OG_IMAGE_WIDTH)} />
+<meta property="og:image:height" content={String(DEFAULT_OG_IMAGE_HEIGHT)} />
+<meta property="og:image:alt" content={description} />
 
 {
   type === 'article' && publishedTime && (
@@ -87,7 +92,7 @@ const articleModified = modifiedTime ?? publishedTime;
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
-<meta name="twitter:image:alt" content={`${SITE_NAME} — ${title}`} />
+<meta name="twitter:image:alt" content={description} />
 {TWITTER_HANDLE && <meta name="twitter:site" content={TWITTER_HANDLE} />}
 
 <!-- Language alternates -->

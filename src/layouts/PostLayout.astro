@@ -5,7 +5,7 @@ import { formatDate, useTranslations, type Lang } from '../i18n/ui';
 import type { BlogPost } from '../utils/posts';
 import { getBlogPosts, getLang, getSlug } from '../utils/posts';
 import { isAiTranslatedTag } from '../utils/tags';
-import { absoluteUrl, blogPostingJsonLd, canonicalUrl } from '../utils/seo';
+import { absoluteUrl, blogPostingJsonLd, canonicalUrl, DEFAULT_OG_IMAGE } from '../utils/seo';
 
 interface Props {
   post: BlogPost;
@@ -43,7 +43,7 @@ const jsonLd = site
       dateModified: modified.toISOString(),
       inLanguage: lang,
       keywords: tags.length > 0 ? tags : undefined,
-      image: absoluteUrl('/og.png', site),
+      image: absoluteUrl(DEFAULT_OG_IMAGE, site),
     })
   : undefined;
 

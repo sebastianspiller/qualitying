@@ -19,7 +19,6 @@ const canonicalPath = getRelativeLocaleUrl(defaultLang, '');
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content={`0;url=${redirectTo}`} />
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -33,10 +32,14 @@ const canonicalPath = getRelativeLocaleUrl(defaultLang, '');
       hreflang={hreflang}
       jsonLd={jsonLd}
     />
+    <!-- Browsers only: crawlers (WhatsApp, etc.) do not run JS and read OG tags here. -->
+    <script is:inline define:vars={{ redirectTo }}>
+      location.replace(redirectTo);
+    </script>
   </head>
   <body>
     <p>
-      <a href={redirectTo}>Continue to {title}</a>
+      <a href={redirectTo}>{title}</a> — {description}
     </p>
   </body>
 </html>
