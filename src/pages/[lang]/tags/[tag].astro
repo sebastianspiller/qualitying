@@ -25,7 +25,13 @@ const { tag, posts } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<BaseLayout lang={lang} title={`#${tag}`} switchPath="tags">
+<BaseLayout
+  lang={lang}
+  title={`#${tag}`}
+  description={`${t('tags.postsTagged')} #${tag} — ${t('site.title')}`}
+  switchPath="tags"
+  hreflangLocales={[]}
+>
   <h1>{t('tags.postsTagged')} #{tag}</h1>
   <ul class="post-list">
     {posts.map((post) => <PostCard post={post} lang={lang} />)}

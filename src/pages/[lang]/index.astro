@@ -14,7 +14,7 @@ const t = useTranslations(lang);
 const posts = (await getPosts(lang)).slice(0, 3);
 ---
 
-<BaseLayout lang={lang} switchPath="">
+<BaseLayout lang={lang} switchPath="" webSiteSchema>
   <div class="page-intro">
     <h1>{t('site.title')}</h1>
     <p class="lede">{t('home.intro')}</p>

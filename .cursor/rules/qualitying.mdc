@@ -1,0 +1,28 @@
+---
+description: Qualitying blog — Astro, bilingual posts, i18n
+alwaysApply: true
+---
+
+# Qualitying
+
+Static Astro 5 blog: `en` + `de` under `src/content/blog/{en,de}/`. Full guide: `AGENTS.md`.
+
+## Posts
+
+- Slug = filename without `.md`; prefer `YYMMDD-slug.md` like existing posts.
+- Frontmatter: `title`, `description`, `pubDate`; optional `updatedDate`, `tags`, `draft`.
+- `draft: true` shows in dev only; hidden in production builds.
+- EN and DE posts are independent — do not auto-create a translation unless asked.
+- German AI translations: use tag `ai translated`.
+
+## Code
+
+- UI strings → `src/i18n/ui.ts` (both languages).
+- Post language from path: `en/foo` → lang `en`, slug `foo` (`src/utils/posts.ts`).
+- Internal URLs → `withBase()` from `src/utils/url.ts`.
+- Site: `astro.config.mjs`; domain in `public/CNAME`.
+
+## Agent habits
+
+- Minimal diffs; no commits unless the user asks.
+- Run `npm run check` or `npm run build` after content schema or type changes.

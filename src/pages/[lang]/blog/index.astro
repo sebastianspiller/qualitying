@@ -13,7 +13,12 @@ const t = useTranslations(lang);
 const posts = await getPosts(lang);
 ---
 
-<BaseLayout lang={lang} title={t('blog.title')} switchPath="blog">
+<BaseLayout
+  lang={lang}
+  title={t('blog.title')}
+  description={t('blog.description')}
+  switchPath="blog"
+>
   <h1>{t('blog.title')}</h1>
   {
     posts.length === 0 ? (

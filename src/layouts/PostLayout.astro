@@ -3,7 +3,9 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from './BaseLayout.astro';
 import { formatDate, useTranslations, type Lang } from '../i18n/ui';
 import type { BlogPost } from '../utils/posts';
+import { getBlogPosts, getLang, getSlug } from '../utils/posts';
 import { isAiTranslatedTag } from '../utils/tags';
+import { absoluteUrl, blogPostingJsonLd, canonicalUrl } from '../utils/seo';
 
 interface Props {
   post: BlogPost;
@@ -15,9 +17,52 @@ const { post, lang, switchPath } = Astro.props;
 const t = useTranslations(lang);
 const { title, description, pubDate, updatedDate, tags } = post.data;
 const showDraftBadge = !import.meta.env.PROD && post.data.draft === true;
+
+const slug = getSlug(post);
+const localePath = switchPath ?? `blog/${slug}`;
+const allPosts = await getBlogPosts();
+const hreflangLocales = [
+  ...new Set(
+    allPosts.filter((entry) => getSlug(entry) === slug).map((entry) => getLang(entry)),
+  ),
+];
+
+const site = Astro.site;
+const postUrl = site
+  ? canonicalUrl(getRelativeLocaleUrl(lang, localePath), site)
+  : getRelativeLocaleUrl(lang, localePath);
+const modified = updatedDate ?? pubDate;
+
+const jsonLd = site
+  ? blogPostingJsonLd({
+      headline: title,
+      description,
+      url: postUrl,
+      siteUrl: site.href,
+      datePublished: pubDate.toISOString(),
+      dateModified: modified.toISOString(),
+      inLanguage: lang,
+      keywords: tags.length > 0 ? tags : undefined,
+      image: absoluteUrl('/og.png', site),
+    })
+  : undefined;
+
+const isDraft = post.data.draft === true;
 ---
 
-<BaseLayout lang={lang} title={title} description={description} switchPath={switchPath}>
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  switchPath={localePath}
+  seoType="article"
+  hreflangLocales={hreflangLocales}
+  publishedTime={pubDate}
+  modifiedTime={updatedDate}
+  tags={tags}
+  noindex={isDraft}
+  jsonLd={jsonLd}
+>
   <article>
     <h1>
       {title}

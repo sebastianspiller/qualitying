@@ -1,22 +1,75 @@
 ---
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import SEO from '../components/SEO.astro';
 import { useTranslations, type Lang } from '../i18n/ui';
 import { withBase } from '../utils/url';
+import {
+  hreflangForAllLocales,
+  hreflangForLocales,
+  webSiteJsonLd,
+  type HreflangLink,
+  type PageType,
+} from '../utils/seo';
 
 interface Props {
   lang: Lang;
   title?: string;
   description?: string;
   switchPath?: string;
+  /** `website` (default) or `article` for blog posts. */
+  seoType?: PageType;
+  /** Locales that have a matching page at `switchPath` (for hreflang). Omit to use all locales. */
+  hreflangLocales?: Lang[];
+  /** Include WebSite JSON-LD (home page). */
+  webSiteSchema?: boolean;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  tags?: string[];
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { lang, title, description, switchPath = '' } = Astro.props;
+const {
+  lang,
+  title,
+  description,
+  switchPath = '',
+  seoType = 'website',
+  hreflangLocales,
+  webSiteSchema = false,
+  publishedTime,
+  modifiedTime,
+  tags,
+  image,
+  noindex,
+  jsonLd,
+} = Astro.props;
+
 const t = useTranslations(lang);
+const site = Astro.site;
 
 const pageTitle = title ? `${title} — ${t('site.title')}` : t('site.title');
 const pageDescription = description ?? t('site.description');
 const year = new Date().getFullYear();
+
+let hreflang: HreflangLink[] = [];
+if (site) {
+  if (hreflangLocales !== undefined) {
+    if (hreflangLocales.length > 0) {
+      hreflang = hreflangForLocales(site, switchPath, hreflangLocales);
+    }
+  } else {
+    hreflang = hreflangForAllLocales(site, switchPath);
+  }
+}
+
+const schema =
+  jsonLd ??
+  (webSiteSchema && site
+    ? webSiteJsonLd(site, lang, pageDescription)
+    : undefined);
 ---
 
 <!doctype html>
@@ -29,9 +82,21 @@ const year = new Date().getFullYear();
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={pageDescription} />
-    <meta property="og:type" content="website" />
+    <SEO
+      lang={lang}
+      title={pageTitle}
+      description={pageDescription}
+      type={seoType}
+      pathname={Astro.url.pathname}
+      site={site}
+      image={image}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      tags={tags}
+      noindex={noindex}
+      hreflang={hreflang}
+      jsonLd={schema}
+    />
     <link
       rel="alternate"
       type="application/rss+xml"
