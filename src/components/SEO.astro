@@ -16,6 +16,8 @@ interface Props {
   description: string;
   type?: PageType;
   pathname: string;
+  /** Canonical URL path when it differs from `pathname` (e.g. root → default locale home). */
+  canonicalPath?: string;
   site: URL | undefined;
   image?: string;
   publishedTime?: Date;
@@ -32,6 +34,7 @@ const {
   description,
   type = 'website',
   pathname,
+  canonicalPath,
   site,
   image,
   publishedTime,
@@ -42,7 +45,8 @@ const {
   jsonLd,
 } = Astro.props;
 
-const canonical = canonicalUrl(pathname, site);
+const pageUrl = canonicalUrl(pathname, site);
+const canonical = canonicalUrl(canonicalPath ?? pathname, site);
 const ogImage = image ? absoluteUrl(image, site) : absoluteUrl('/og.png', site);
 const robots = noindex ? 'noindex, nofollow' : 'index, follow';
 const locale = ogLocale(lang);
@@ -60,7 +64,7 @@ const articleModified = modifiedTime ?? publishedTime;
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />
-<meta property="og:url" content={canonical} />
+<meta property="og:url" content={pageUrl} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:alt" content={`${SITE_NAME} — ${title}`} />
 

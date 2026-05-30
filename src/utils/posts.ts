@@ -26,9 +26,10 @@ function comparePosts(a: BlogPost, b: BlogPost): number {
   const byDate = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
   if (byDate !== 0) return byDate;
 
-  const orderA = a.data.order ?? Number.POSITIVE_INFINITY;
-  const orderB = b.data.order ?? Number.POSITIVE_INFINITY;
-  if (orderA !== orderB) return orderA - orderB;
+  // Same-day posts: higher order = newer = listed first; missing order sorts last.
+  const orderA = a.data.order ?? 0;
+  const orderB = b.data.order ?? 0;
+  if (orderA !== orderB) return orderB - orderA;
 
   return getSlug(a).localeCompare(getSlug(b));
 }
