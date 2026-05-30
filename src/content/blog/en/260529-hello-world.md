@@ -2,6 +2,7 @@
 title: "Hello, world"
 description: "Why I started this blog and what you can expect to find here."
 pubDate: 2026-05-29
+order: 1
 tags: ["meta", "writing"]
 draft: false
 ---
@@ -16,6 +17,8 @@ I think in two languages, and forcing everything into one of them always feels
 like a compromise. So here, each language has its own section: English posts
 live under `/en/`, German posts under `/de/`. Use the **EN / DE** switch in the
 top-right corner to jump between them.
+
+Finally, I translate the posts via AI and tag them with `#ai translated`.
 
 ## What to expect
 

@@ -2,6 +2,7 @@
 title: "Hallo, Welt"
 description: "Warum ich diesen Blog begonnen habe und was dich hier erwartet."
 pubDate: 2026-05-29
+order: 1
 tags: ["meta", "schreiben"]
 draft: false
 ---
@@ -16,6 +17,8 @@ Ich denke in zwei Sprachen, und alles in eine davon zu zwängen, fühlt sich imm
 wie ein Kompromiss an. Deshalb hat hier jede Sprache ihren eigenen Bereich:
 englische Beiträge liegen unter `/en/`, deutsche unter `/de/`. Mit dem
 **EN / DE**-Schalter oben rechts kannst du zwischen ihnen wechseln.
+
+Letztenendes lasse ich die Posts von der KI übersetzen und tagge sie mit `#ai translated`.
 
 ## Was dich erwartet
 

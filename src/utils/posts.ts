@@ -22,11 +22,20 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   return getCollection('blog', ({ data }) => shouldIncludePost(data.draft));
 }
 
+function comparePosts(a: BlogPost, b: BlogPost): number {
+  const byDate = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  if (byDate !== 0) return byDate;
+
+  const orderA = a.data.order ?? Number.POSITIVE_INFINITY;
+  const orderB = b.data.order ?? Number.POSITIVE_INFINITY;
+  if (orderA !== orderB) return orderA - orderB;
+
+  return getSlug(a).localeCompare(getSlug(b));
+}
+
 export async function getPosts(lang: Lang): Promise<BlogPost[]> {
   const posts = await getBlogPosts();
-  return posts
-    .filter((post) => getLang(post) === lang)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return posts.filter((post) => getLang(post) === lang).sort(comparePosts);
 }
 
 export async function getTags(lang: Lang): Promise<string[]> {
